@@ -326,8 +326,7 @@ GitHub Link
      https://github.com/Oishi-Das/AI-powered-study-buddy
 
   Deployment Link:
-     http://localhost:3000
-     (Run locally with: npm install → node server.js)
+     https://ai-powered-study-buddy-u6ef.onrender.com
 
   Tech Stack:
      Node.js  |  Express.js  |  HTML5  |  CSS3  |  JavaScript
