@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Study Buddy — Your Smart Study Companion</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <!-- ── Animated Background ─────────────────────────────── -->
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="grid-bg"></div>
+  </div>
+
+  <!-- ── Loading Screen ──────────────────────────────────── -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loader">
+      <div class="loader-brain">🧠</div>
+      <div class="loader-ring"></div>
+      <div class="loader-ring ring-2"></div>
+      <div class="loader-text">Powering up your Study Buddy...</div>
+      <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- ── Main App Container ──────────────────────────────── -->
+  <div id="app" class="app hidden">
+    
+    <!-- ── Header / Navbar ─────────────────────────────────── -->
+    <header class="header glass">
+      <div class="header-left">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-brain"></i>
+            <div class="logo-pulse"></div>
+          </div>
+          <div class="logo-text">
+            <span class="logo-name">StudyBuddy</span>
+            <span class="logo-tag">AI-Powered</span>
+          </div>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" data-tab="chat" aria-label="Chat">
+          <i class="fas fa-comments"></i>
+          <span>Chat</span>
+          <div class="nav-indicator"></div>
+        </button>
+        <button class="nav-btn" data-tab="explain" aria-label="Explainer">
+          <i class="fas fa-lightbulb"></i>
+          <span>Explainer</span>
+          <div class="nav-indicator"></div>
+        </button>
+        <button class="nav-btn" data-tab="summarize" aria-label="Summarizer">
+          <i class="fas fa-file-alt"></i>
+          <span>Summarizer</span>
+          <div class="nav-indicator"></div>
+        </button>
+        <button class="nav-btn" data-tab="quiz" aria-label="Quiz">
+          <i class="fas fa-question-circle"></i>
+          <span>Quiz</span>
+          <div class="nav-indicator"></div>
+        </button>
+        <button class="nav-btn" data-tab="flashcards" aria-label="Flashcards">
+          <i class="fas fa-clone"></i>
+          <span>Flashcards</span>
+          <div class="nav-indicator"></div>
+        </button>
+      </nav>
+      <div class="header-right">
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="streak-badge glass-subtle" title="Study streak">
+          <i class="fas fa-fire"></i>
+          <span id="streak-count">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Main Content ────────────────────────────────────── -->
+    <main class="main-content">
+
+      <!-- ── Chat Tab ────────────────────────────────────── -->
+      <section id="tab-chat" class="tab-panel active">
+        <div class="chat-container">
+          <div class="chat-header glass-subtle">
+            <div class="chat-status">
+              <div class="status-dot online"></div>
+              <span>StudyBuddy AI is online</span>
+            </div>
+            <button class="icon-btn small" id="clear-chat" title="Clear chat">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+          <div class="chat-messages" id="chat-messages">
+            <div class="message bot fade-in">
+              <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div class="message-content">
+                <div class="message-bubble glass-subtle">
+                  <p>Hello! 👋 I'm your <strong>AI Study Buddy</strong>. I can help you with:</p>
+                  <div class="feature-chips">
+                    <span class="chip" data-action="explain">💡 Explain topics</span>
+                    <span class="chip" data-action="summarize">📝 Summarize notes</span>
+                    <span class="chip" data-action="quiz">❓ Generate quizzes</span>
+                    <span class="chip" data-action="flashcards">🃏 Create flashcards</span>
+                  </div>
+                  <p>What would you like to study today?</p>
+                </div>
+                <span class="message-time">Just now</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-area glass-subtle">
+            <div class="suggestion-pills" id="suggestion-pills">
+              <button class="pill">Explain quantum physics</button>
+              <button class="pill">Help me study biology</button>
+              <button class="pill">Give me study tips</button>
+              <button class="pill">What is machine learning?</button>
+            </div>
+            <div class="input-row">
+              <textarea id="chat-input" placeholder="Ask me anything about your studies..." rows="1"></textarea>
+              <button class="send-btn" id="chat-send" aria-label="Send message">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Explainer Tab ───────────────────────────────── -->
+      <section id="tab-explain" class="tab-panel">
+        <div class="tool-container">
+          <div class="tool-header">
+            <div class="tool-icon gradient-yellow">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <div>
+              <h2>Topic Explainer</h2>
+              <p class="text-muted">Get clear, simple explanations for any concept</p>
+            </div>
+          </div>
+          <div class="tool-body">
+            <div class="input-group">
+              <label for="explain-topic">What topic do you want explained?</label>
+              <div class="input-with-icon">
+                <i class="fas fa-search"></i>
+                <input type="text" id="explain-topic" placeholder="e.g., Photosynthesis, Quantum Physics, Neural Networks..." />
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Difficulty Level</label>
+              <div class="level-selector">
+                <button class="level-btn active" data-level="simple">
+                  <i class="fas fa-seedling"></i>
+                  <span>Simple</span>
+                  <small>Easy to understand</small>
+                </button>
+                <button class="level-btn" data-level="intermediate">
+                  <i class="fas fa-book"></i>
+                  <span>Intermediate</span>
+                  <small>More detail</small>
+                </button>
+                <button class="level-btn" data-level="advanced">
+                  <i class="fas fa-graduation-cap"></i>
+                  <span>Advanced</span>
+                  <small>In-depth analysis</small>
+                </button>
+              </div>
+            </div>
+            <button class="primary-btn" id="explain-btn">
+              <i class="fas fa-magic"></i>
+              <span>Explain This Topic</span>
+            </button>
+          </div>
+          <div class="result-area hidden" id="explain-result">
+            <div class="result-header">
+              <h3><i class="fas fa-lightbulb"></i> Explanation</h3>
+              <div class="result-meta">
+                <span class="badge" id="explain-read-time"></span>
+              </div>
+            </div>
+            <div class="result-content markdown-body" id="explain-content"></div>
+            <div class="related-topics" id="related-topics"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Summarizer Tab ──────────────────────────────── -->
+      <section id="tab-summarize" class="tab-panel">
+        <div class="tool-container">
+          <div class="tool-header">
+            <div class="tool-icon gradient-green">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <div>
+              <h2>Note Summarizer</h2>
+              <p class="text-muted">Condense your study notes into key points</p>
+            </div>
+          </div>
+          <div class="tool-body">
+            <div class="input-group">
+              <label for="summarize-text">Paste your notes or text</label>
+              <textarea id="summarize-text" rows="8" placeholder="Paste your study notes, textbook excerpts, or any text you want summarized..."></textarea>
+              <div class="char-count"><span id="char-count">0</span> characters</div>
+            </div>
+            <button class="primary-btn" id="summarize-btn">
+              <i class="fas fa-compress-alt"></i>
+              <span>Summarize Notes</span>
+            </button>
+          </div>
+          <div class="result-area hidden" id="summarize-result">
+            <div class="result-header">
+              <h3><i class="fas fa-list"></i> Summary</h3>
+            </div>
+            <div class="summary-stats" id="summary-stats"></div>
+            <div class="result-content" id="summarize-content"></div>
+            <div class="key-terms" id="key-terms"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Quiz Tab ────────────────────────────────────── -->
+      <section id="tab-quiz" class="tab-panel">
+        <div class="tool-container">
+          <div class="tool-header">
+            <div class="tool-icon gradient-purple">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <div>
+              <h2>Quiz Generator</h2>
+              <p class="text-muted">Test your knowledge with AI-generated questions</p>
+            </div>
+          </div>
+          <div class="tool-body" id="quiz-setup">
+            <div class="input-group">
+              <label for="quiz-topic">Quiz Topic</label>
+              <div class="input-with-icon">
+                <i class="fas fa-tag"></i>
+                <input type="text" id="quiz-topic" placeholder="e.g., World War II, Calculus, Chemistry..." />
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Number of Questions</label>
+              <div class="count-selector">
+                <button class="count-btn" data-count="3">3</button>
+                <button class="count-btn active" data-count="5">5</button>
+                <button class="count-btn" data-count="7">7</button>
+              </div>
+            </div>
+            <button class="primary-btn" id="quiz-btn">
+              <i class="fas fa-play"></i>
+              <span>Start Quiz</span>
+            </button>
+          </div>
+          <div class="quiz-area hidden" id="quiz-area">
+            <div class="quiz-progress">
+              <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+              </div>
+              <span id="quiz-progress-text">Question 1 of 5</span>
+            </div>
+            <div class="quiz-question" id="quiz-question"></div>
+            <div class="quiz-options" id="quiz-options"></div>
+            <div class="quiz-explanation hidden" id="quiz-explanation"></div>
+            <div class="quiz-actions">
+              <button class="secondary-btn hidden" id="quiz-next">
+                Next Question <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="quiz-results hidden" id="quiz-results">
+            <div class="results-card">
+              <div class="results-icon" id="results-icon"></div>
+              <h3 id="results-title"></h3>
+              <div class="results-score" id="results-score"></div>
+              <div class="results-breakdown" id="results-breakdown"></div>
+              <button class="primary-btn" id="quiz-retry">
+                <i class="fas fa-redo"></i>
+                <span>Try Again</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Flashcards Tab ──────────────────────────────── -->
+      <section id="tab-flashcards" class="tab-panel">
+        <div class="tool-container">
+          <div class="tool-header">
+            <div class="tool-icon gradient-orange">
+              <i class="fas fa-clone"></i>
+            </div>
+            <div>
+              <h2>Flashcard Generator</h2>
+              <p class="text-muted">Create smart flashcards for active recall</p>
+            </div>
+          </div>
+          <div class="tool-body" id="flashcard-setup">
+            <div class="input-group">
+              <label for="flashcard-topic">Flashcard Topic</label>
+              <div class="input-with-icon">
+                <i class="fas fa-tag"></i>
+                <input type="text" id="flashcard-topic" placeholder="e.g., Spanish Vocabulary, Anatomy, Data Structures..." />
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Number of Cards</label>
+              <div class="count-selector">
+                <button class="count-btn" data-count="4">4</button>
+                <button class="count-btn active" data-count="6">6</button>
+                <button class="count-btn" data-count="8">8</button>
+              </div>
+            </div>
+            <button class="primary-btn" id="flashcard-btn">
+              <i class="fas fa-magic"></i>
+              <span>Generate Flashcards</span>
+            </button>
+          </div>
+          <div class="flashcard-area hidden" id="flashcard-area">
+            <div class="flashcard-controls">
+              <button class="icon-btn" id="fc-prev" title="Previous card">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span class="fc-counter" id="fc-counter">1 / 6</span>
+              <button class="icon-btn" id="fc-next" title="Next card">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <div class="flashcard-viewport">
+              <div class="flashcard" id="flashcard">
+                <div class="flashcard-inner">
+                  <div class="flashcard-front">
+                    <div class="fc-label">QUESTION</div>
+                    <div class="fc-text" id="fc-front"></div>
+                    <div class="fc-hint">Click to flip</div>
+                  </div>
+                  <div class="flashcard-back">
+                    <div class="fc-label">ANSWER</div>
+                    <div class="fc-text markdown-body" id="fc-back"></div>
+                    <div class="fc-hint">Click to flip back</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flashcard-actions">
+              <button class="fc-action-btn hard" id="fc-hard" title="Hard - Review again">
+                <i class="fas fa-times"></i>
+                <span>Hard</span>
+              </button>
+              <button class="fc-action-btn good" id="fc-good" title="Good - Got it">
+                <i class="fas fa-check"></i>
+                <span>Good</span>
+              </button>
+              <button class="fc-action-btn easy" id="fc-easy" title="Easy - Mastered">
+                <i class="fas fa-star"></i>
+                <span>Easy</span>
+              </button>
+            </div>
+            <div class="fc-progress" id="fc-progress"></div>
+            <button class="secondary-btn" id="fc-back-btn" style="margin-top:1rem;">
+              <i class="fas fa-arrow-left"></i> Back to Setup
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── Footer ──────────────────────────────────────────── -->
+    <footer class="footer glass-subtle">
+      <p>Made with <i class="fas fa-heart" style="color: #ef4444;"></i> by AI Study Buddy — Your intelligent study companion</p>
+    </footer>
+  </div>
+
+  <!-- ── Toast Container ──────────────────────────────────── -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/explainer.js"></script>
+  <script src="js/summarizer.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
